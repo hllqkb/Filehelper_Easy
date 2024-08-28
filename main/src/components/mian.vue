@@ -1,0 +1,105 @@
+<template>
+    <html lang="zh-CN">
+      <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <meta name="renderer" content="webkit" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <link rel="shortcut icon" type="image/x-icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico" />
+        <meta rel="mask-icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/MjliNWVm.svg" color="#4C4C4C" />
+        <meta rel="apple-touch-icon-precomposed" href="https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" />
+        <meta name="keywords" content="微信，微信文件传输助手，文件传输助手，文件传输，微信文件传输助手网页版" />
+        <meta name="description" content="微信文件传输助手网页版" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        <meta name="theme-color" content="#2c2c2c" />
+        <link rel="apple-touch-icon" href="https://res.wx.qq.com/t/fed_upload/5b551698-63f4-4f29-b9a2-cc3d6804686b/app-icon-192x192.png" />
+        <title>微信文件传输助手网页版</title>
+        <link rel="manifest" href="/manifest.json" />
+        <script>
+          if (window.location.host.indexOf('localhost') < 0) {
+            const targetProtocol = "https:";
+            if (window.location.protocol != targetProtocol) {
+              window.location.href = targetProtocol + window.location.href.substring(window.location.protocol.length);
+            }
+          }
+          /*
+          兜网吧环境，页面被劫持窜改了文件，加贴片广告之类的。因为这种贴片大部分是基于jquery
+          */
+          window.$ = window.$ || function () {};
+        </script>
+        <link href="//res.wx.qq.com/t/wx_fed/base/webwx-transfer/24052300/static/main.ff18b7a87b7b6132b913.css" rel="stylesheet" />
+        <script id="s1v3x65vfu" src="/cgi-bin/mmwebwx-bin/synccheck?r=1724815934308&skey=%40crypt_dc4fc773_4a3f07a34b962311c8c297b129596099&sid=74eTu9vWI8An%2BFH7&uin=2771417030&deviceid=057519586713063&synckey=1_835808626%7C2_835808265%7C3_835808587%7C1000_1724801460&mmweb_appid=wx_webfilehelper"></script>
+        <script id="u595pf5fn5" src="https://login.wx.qq.com/jslogin?appid=wx_webfilehelper&redirect_uri=https%253A%252F%252Ffilehelper.weixin.qq.com%252Fcgi-bin%252Fmmwebwx-bin%252Fwebwxnewloginpage&fun=new&lang=zh_CN&_=1724816309654"></script>
+        <script id="tph4f3gjg3" src="https://login.wx.qq.com/cgi-bin/mmwebwx-bin/login?loginicon=true&uuid=YeRBCGzBCg==&tip=1&r=1760543292&_=1724816309699&appid=wx_webfilehelper"></script>
+      </head>
+      <body>
+        <div id="app" class="app" data-v-app>
+          <div class="page page__login">
+            <!--首页先隐藏-->
+            <nav class="logo" title="微信传输助手">
+              <span class="logo-icon"></span>
+            </nav>
+            <div class="chat-main">
+              <h1 class="title">
+                <span class="logo-icon"></span>
+                <span class="title-content">使用文件传输助手，手机电脑轻松互传文件。</span>
+              </h1>
+              <div class="login-scan">
+                <div class="login-scan__panel">
+                  <div class="login-scan__info">
+                    <p class="login-scan__title">微信文件传输助手网页版</p>
+                  </div>
+                  <div class="qrcode">
+                    <!--等待二维码-->
+                    <img class="qrcode-img" src="https://login.weixin.qq.com/qrcode/YeRBCGzBCg==" />
+                    <!--v-if-->
+                  </div>
+                  <p class="login-scan__extend">使用手机微信扫码传输文件</p>
+                </div>
+              </div>
+            </div>
+            <footer class="footer">
+              <ul class="footer-header">
+                <li class="footer-header__item">
+                  <a class="footer-header__item-container" target="_blank" href="https://weixin.qq.com/cgi-bin/readtemplate?lang=zh_CN&t=weixin_agreement&s=privacy">微信隐私保护指引</a>
+                </li>
+                <li class="footer-header__item footer-header__item__border-none">
+                  <a class="footer-header__item-container" target="_blank" href="https://weixin.qq.com/cgi-bin/readtemplate?lang=zh_CN&t=weixin_agreement&s=default">腾讯微信软件许可及服务协议</a>
+                </li>
+                <li class="footer-header__item">
+                  <a class="footer-header__item-container" target="_blank" href="/feedback">反馈与建议</a>
+                </li>
+              </ul>
+              <div class="footer-extend">
+                <p class="desc">© 1998 - 2024 Tencent Inc. All Rights Reserved</p>
+              </div>
+            </footer>
+            <!--统一报错弹窗-->
+            <!--v-if-->
+            <!--统一退出登录弹窗-->
+            <!--v-if-->
+          </div>
+        </div>
+        <div id="pageUpgrade" style="display: none;" class="page__upgrade">
+          <span class="page__upgrade__icon"></span>
+          <div class="page__upgrade__desc">
+            <p>浏览器版本过低，暂无法使用微信文件传输助手网页版。</p>
+            <p>可对浏览器升级或尝试其它浏览器。</p>
+          </div>
+        </div>
+        <div id="pageRecommendBrowser" style="display: none;" class="page__upgrade">
+          <nav class="logo" title="微信传输助手">
+            <span class="logo-icon"></span>
+          </nav>
+          <span class="page__upgrade__icon"></span>
+          <div class="page__upgrade__desc">
+            <p>暂无法使用微信文件传输助手网页版，可尝试使用电脑端其他浏览器访问。</p>
+          </div>
+        </div>
+        <script src="https://res.wx.qq.com/t/wx_fed/cdn_libs/res/wcinfo/1.0.19/wcinfo.min.js"></script>
+        <script src="//res.wx.qq.com/t/wx_fed/base/webwx-transfer/24052300/main.060f2b3fa370604828e2.js" crossorigin="anonymous"></script>
+      </body>
+    </html>
+  </template>
+  
