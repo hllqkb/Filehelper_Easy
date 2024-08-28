@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$maxFileSize = 100 * 1024 * 1024; // 100MB
+require_once 'config.php';
 $allowedTypes = [
     'image/jpeg', 'image/png', 'application/pdf',
     'application/vnd.android.package-archive', // apk
@@ -9,19 +9,39 @@ $allowedTypes = [
     'audio/mpeg', // mp3
     'application/octet-stream', // exe
     'application/zip', // zip
+    'application/x-zip-compressed', // zip
     'application/x-rar-compressed' // rar
 ];
-//ip限制
-// $allowedIPs = ['127.0.0.1', '::1']; // 允许的IP地址列表
-// 
 
-// // 检查IP地址是否在允许列表中
-// if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIPs)) {
-//     echo json_encode(['status' => 'error', 'message' => 'Access denied']);
-//     exit;
-// }
+if($IfIpLimit){
+   //ip限制
 
-if (isset($_FILES['file']) && in_array($_FILES['file']['type'], $allowedTypes)) {
+   
+   //检查IP地址是否在允许列表中
+    if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIPs)) {
+       echo json_encode(['status' => 'error', 'message' => 'Access denied']);
+       exit;
+    } 
+}else{
+//无限制
+}
+
+
+if (isset($_FILES['file'])) {
+    $fileExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+
+    // 检查文件扩展名是否在允许列表中
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
+        exit;
+    }
+
+    // 检查文件MIME类型是否在允许列表中
+    if (!in_array($_FILES['file']['type'], $allowedTypes)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
+        exit;
+    }
+
     // 检查文件大小
     if ($_FILES['file']['size'] > $maxFileSize) {
         echo json_encode(['status' => 'error', 'message' => 'File size exceeds limit']);
@@ -63,6 +83,6 @@ if (isset($_FILES['file']) && in_array($_FILES['file']['type'], $allowedTypes)) 
         echo json_encode(['status' => 'error', 'message' => 'Failed to move uploaded file']);
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
+    echo json_encode(['status' => 'error', 'message' => 'No file uploaded']);
 }
 ?>

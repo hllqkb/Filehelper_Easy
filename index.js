@@ -4,10 +4,38 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
         sendMessage();
     }
 });
-
+//点击发送按钮
 document.getElementById('sendButton').addEventListener('click', function() {
     sendMessage();
+    convertLinksToHyperlinks();
 });
+
+function convertLinksToHyperlinks() {
+    // 获取所有带有 chat-message__text 类的 div 元素
+    const divs = document.querySelectorAll('div.chat-message__text');
+
+    // 遍历每个 div 元素
+    divs.forEach(div => {
+        // 获取 div 的内容
+        const content = div.textContent.trim();
+
+        // 检查内容是否是一个链接（简单的正则表达式检查）
+        const linkPattern = /^(https?:\/\/|www\.)[\w\d./?=#+-]+$/;
+        if (linkPattern.test(content)) {
+            // 创建一个新的 <a> 元素
+            const a = document.createElement('a');
+            a.href = content.startsWith('www.') ? 'http://' + content : content;
+            a.textContent = content;
+            a.target = '_blank'; // 在新标签页中打开链接
+
+            // 清空 div 的内容并添加新的 <a> 元素
+            div.innerHTML = '';
+            div.appendChild(a);
+        }
+    });
+}
+
+
 
 function sendMessage() {
     const messageInput = document.getElementById('messageInput');
@@ -17,6 +45,9 @@ function sendMessage() {
     if (messageText) {
         const messageElement = document.createElement('div');
         messageElement.className = 'chat-message';
+        messageElement.dataset.timestamp = new Date().getTime(); // 添加时间戳
+        messageElement.dataset.type = 'text'; // 添加消息类型
+        messageElement.dataset.text = messageText; // 添加消息内容
 
         const avatarElement = document.createElement('img');
         avatarElement.className = 'chat-message__avatar';
@@ -40,6 +71,53 @@ function sendMessage() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 }
+// function addDeleteButton(messageElement) {
+//     const deleteButton = document.createElement('button');
+//     deleteButton.className = 'chat-message__delete';
+//     deleteButton.textContent = 'Delete';
+//     deleteButton.onclick = () => deleteMessage(messageElement);
+
+//     messageElement.appendChild(deleteButton);
+// }
+
+function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+    const messageText = messageInput.value.trim();
+
+    if (messageText) {
+        const messageElement = document.createElement('div');
+        messageElement.className = 'chat-message';
+        messageElement.dataset.timestamp = new Date().getTime(); // 添加时间戳
+        messageElement.dataset.type = 'text'; // 添加消息类型
+        messageElement.dataset.text = messageText; // 添加消息内容
+
+        const avatarElement = document.createElement('img');
+        avatarElement.className = 'chat-message__avatar';
+        avatarElement.src = 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png'; // 头像图片地址
+
+        const textElement = document.createElement('div');
+        textElement.className = 'chat-message__text';
+        textElement.textContent = messageText;
+
+        messageElement.appendChild(avatarElement);
+        messageElement.appendChild(textElement);
+        chatMessages.appendChild(messageElement);
+
+        // 添加删除按钮
+       // addDeleteButton(messageElement);
+
+        // 发送文本到后端
+        sendTextToServer(messageText);
+
+        // 清空输入框
+        messageInput.value = '';
+
+        // 滚动到最新消息
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
 
 function sendTextToServer(text) {
     fetch('save_text.php', {
@@ -95,6 +173,8 @@ function uploadFile(file) {
 
 
 function loadChatHistory() {
+            // 超文本转换
+
     return fetch('load_texts.php')
         .then(response => response.json())
         .catch((error) => {
@@ -104,6 +184,8 @@ function loadChatHistory() {
 }
 
 function loadFileHistory() {
+            // 超文本转换
+
     return fetch('load_files.php')
         .then(response => response.json())
         .catch((error) => {
@@ -183,22 +265,33 @@ function loadAllHistory() {
 
             // 滚动到最新消息
             chatMessages.scrollTop = chatMessages.scrollHeight;
-
+                    // 超文本转换
+                convertLinksToHyperlinks();
+            //上面是加载历史消息的代码，下面是删除消息的代码
             // 添加右键删除功能
-            chatMessages.addEventListener('contextmenu', function(event) {
-                event.preventDefault();
-                const target = event.target.closest('.chat-message');
-                if (target) {
-                    const confirmDelete = confirm('确定要删除这条消息吗？');
-                    if (confirmDelete) {
-                        deleteMessage(target);
-                    }
-                }
-            });
+    Adddeletebutton();
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+
+}
+function Adddeletebutton() {
+      // 添加右键删除功能
+    const chatMessages = document.getElementById('chatMessages');
+    chatMessages.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+        const target = event.target.closest('.chat-message');
+        if (target) {
+            const confirmDelete = confirm('确定要删除这条消息吗？');
+            if (confirmDelete) {
+                deleteMessage(target);
+            }
+        }
+        else {
+            console.log('No message selected');
+        }
+    });
 }
 
 function deleteMessage(messageElement) {
@@ -210,6 +303,10 @@ function deleteMessage(messageElement) {
         data.text = messageElement.dataset.text;
     } else if (type === 'file') {
         data.filename = messageElement.dataset.filename;
+    }
+    else {
+        console.error('Unknown message type:', type);
+        return;
     }
 
     fetch(`delete_${type}.php`, {
@@ -229,6 +326,7 @@ function deleteMessage(messageElement) {
     .catch((error) => {
         console.error('Error:', error);
     });
+//window.location.reload();
 }
 
 window.onload = function() {
