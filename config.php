@@ -1,10 +1,22 @@
 <?php
-$maxFileSize = 100 * 1024 * 1024;
-$allowedExtensions = array("mp4", "mp3", "exe", "zip", "rar","apk","jpg", "jpeg", "gif", "png", "rar", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "pdf", "swf"); // 允许上传的文件类型
-$IfIpLimit=FALSE; // 是否限制IP上传，默认不限制
-$allowedIPs = ['127.0.0.55']; // 允许的IP地址列表
-// $dbhost = "localhost";
-// $dbuser = "root";
-// $dbpass = "";
-// $dbname = "filehelper";
+// 读取 config.json 文件内容
+$jsonContent = file_get_contents('config.json');
+
+// 解析 JSON 数据为 PHP 数组
+$configArray = json_decode($jsonContent, true);
+
+// 检查是否解析成功
+if (json_last_error() === JSON_ERROR_NONE && is_array($configArray)) {
+    // 遍历数组并将每个键值对赋值给对应的 PHP 变量
+    foreach ($configArray as $key => $value) {
+        // 使用变量变量语法将键名作为变量名，值作为变量值
+        $$key = $value;
+    }
+} else {
+    // 处理 JSON 解析错误
+    echo 'Error parsing config.json';
+}
+
+// 示例：输出配置值
+echo $maxFileSize; // 假设 config.json 中有 "exampleKey": "exampleValue"
 ?>
