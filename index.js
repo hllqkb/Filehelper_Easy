@@ -57,6 +57,17 @@ function sendTextToServer(text) {
         console.error('Error:', error);
     });
 }
+//文件上传
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        console.log('File selected:', file.name);
+        uploadFile(file);
+        
+    } else {
+        console.error('No file selected');
+    }
+});
 
 function uploadFile(file) {
     const formData = new FormData();
@@ -66,14 +77,22 @@ function uploadFile(file) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Success:', data);
+        loadAllHistory();
     })
     .catch((error) => {
         console.error('Error:', error);
     });
+   
 }
+
 
 function loadChatHistory() {
     return fetch('load_texts.php')
