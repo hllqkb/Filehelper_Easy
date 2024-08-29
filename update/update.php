@@ -167,12 +167,13 @@ $localVersion = getLocalVersion();
                         <button type="submit" name="update" class="btn btn-primary">一键更新</button>
                     </form>
                     <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#configModal">配置修改</button>
+                    <hr><button ype="button" onclick="window.location.href='../'" class="btn btn-success">回到主页</button>
                 <?php else: ?>
                     <div class="alert alert-success" role="alert">
                         本地代码已是最新版本。
                     </div>
                 <?php endif; ?>
-                <button id="checkUpdateBtn" onclick="window.location.href='../'" class="btn btn-success">回到主页</button>
+                
             </div>
         </div>
        
