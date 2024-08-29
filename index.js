@@ -237,6 +237,26 @@ function isPhone() {
 
 
 function Adddeletebutton() {
+    //没救了，怎么都不行，只能放弃了
+    $(document).ready(function() {
+        // 读取cookie
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    
+        // 检查是否开启右键删除消息功能
+        const enableRightClickDelete = getCookie('enableRightClickDelete') === 'true';
+    
+            if (enableRightClickDelete) {
+     
+            } else {
+                // 关闭右键删除消息功能
+                return;
+            }
+        }
+    );
     // 添加右键删除功能
     if (isPhone()) {
         return;

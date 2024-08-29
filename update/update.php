@@ -94,7 +94,7 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
             $tempDir = $extractPath . $firstFolder . '/';
             $rootDir = '../'; // 根目录路径
             $zip->close();
-            unlink($zipFile);
+           
 
             function moveFiles($source, $destination) {
                 if (!is_dir($destination)) {
@@ -121,6 +121,10 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
             unlink($zipFile); // 删除失败的zip文件
             return;
         }
+        if(!unlink($zipFile)){
+            logError('删除下载的zip文件失败')
+        }
+            // 删除下载的zip文件
     }
     //更新完成后更新本地版本信息
     file_put_contents('../update/version.txt', $latestCommit); // 更新本地版本信息
