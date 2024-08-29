@@ -84,7 +84,10 @@ $enableRightClickDelete = isset($_COOKIE['enableRightClickDelete']) ? $_COOKIE['
             <button id="checkUpdateBtn" class="btn btn-secondary mr-2">检查更新安装</button>
             <!-- “短链接”按钮 -->
             <button id="shortLinkBtn" class="btn btn-success" onclick="window.location.href='/d/'">短链接</button>
+            
         </div>
+        <div class="mt-3 d-flex justify-content-start">
+        <button id="shortLinkBtn" class="btn btn-primary" onclick="window.location.href='../'">主页</button>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
