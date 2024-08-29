@@ -11,9 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $config['allowedExtensions'] = explode(',', $_POST['allowedExtensions']);
     $config['IfIpLimit'] = isset($_POST['IfIpLimit']) ? true : false;
     $config['IpLimit'] = explode(',', $_POST['allowedIPs']);
+    $config['web'] = isset($_POST['web']) ? true : false;
 
     // 保存配置文件
     file_put_contents('config.json', json_encode($config, JSON_PRETTY_PRINT));
+
+    // 设置cookie
+    setcookie('enableRightClickDelete', isset($_POST['enableRightClickDelete']) ? 'true' : 'false', time() + (86400 * 30), "/"); // 86400 = 1 day
 
     $_SESSION['message'] = '配置已成功更新！';
     header('Location: admin.php');
@@ -26,6 +30,10 @@ $maxFileSize = $config['maxFileSize'];
 $allowedExtensions = implode(',', $config['allowedExtensions']);
 $IfIpLimit = $config['IfIpLimit'];
 $allowedIPs = implode(',', $config['IpLimit']);
+$web = $config['web'];
+
+// 读取cookie
+$enableRightClickDelete = isset($_COOKIE['enableRightClickDelete']) ? $_COOKIE['enableRightClickDelete'] === 'true' : true; // 默认开启
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -59,7 +67,14 @@ $allowedIPs = implode(',', $config['IpLimit']);
                 <label for="allowedIPs">允许的IP地址列表（用逗号分隔）</label>
                 <input type="text" class="form-control" id="allowedIPs" name="allowedIPs" value="<?php echo $allowedIPs; ?>">
             </div>
- 
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="enableRightClickDelete" name="enableRightClickDelete" <?php echo $enableRightClickDelete ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="enableRightClickDelete">是否开启右键删除消息功能（本地）</label>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="web" name="web" <?php echo $web ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="web">是否开启网站</label>
+            </div>
             <button type="submit" class="btn btn-primary">保存配置</button>
         </form>
 

@@ -181,8 +181,38 @@ function loadAllHistory() {
 
             // 超文本转换
             convertLinksToHyperlinks();
-            // 添加右键删除功能
-            Adddeletebutton();
+            // cookie
+            // index.js
+            $(document).ready(function() {
+                // 读取cookie
+                function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+            
+                // 检查是否开启右键删除消息功能
+                const enableRightClickDelete = getCookie('enableRightClickDelete') === 'true';
+            
+                // 如果cookie不存在，设置默认值为true
+                if (getCookie('enableRightClickDelete') === undefined) {
+                    document.cookie = "enableRightClickDelete=true; path=/";
+                    //alert("Cookie 'enableRightClickDelete' 不存在，已设置为默认值 true");
+                    Adddeletebutton();
+                } else {
+                   // alert(getCookie('enableRightClickDelete'));
+                    if (enableRightClickDelete) {
+                        // 开启右键删除消息功能
+                        // 添加右键删除功能
+                        Adddeletebutton();
+                    } else {
+                        // 关闭右键删除消息功能
+                        // 在这里添加您的关闭右键删除消息功能的代码
+                    }
+                }
+            });
+            
+            //END
 
             // 确保在所有消息都添加到DOM之后再执行滚动操作
             setTimeout(() => {
@@ -230,6 +260,7 @@ function isPhone() {
         return false;
     }
 }
+
 
 
 function Adddeletebutton() {
