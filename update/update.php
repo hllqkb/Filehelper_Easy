@@ -122,6 +122,8 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
             return;
         }
     }
+    //更新完成后更新本地版本信息
+    file_put_contents('../update/version.txt', $latestCommit); // 更新本地版本信息
 }
 
 // 错误日志记录函数
