@@ -250,9 +250,6 @@ function Adddeletebutton() {
     
         if (enableRightClickDelete) {
             // 添加右键删除功能
-            if (isPhone()) {
-                return;
-            }
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
@@ -294,7 +291,7 @@ function showTextDeleteConfirmationModal(messageElement) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>您确定要删除这条消息吗？</p>
+                    <p>您要删除这条消息确定吗？</p>
                     <textarea class="form-control" id="deleteMessageText" rows="3" style="white-space: pre-wrap;">${textContent}</textarea>
                 </div>
                 <div class="modal-footer">
