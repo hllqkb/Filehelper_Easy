@@ -3,7 +3,6 @@ require_once 'updateConfig.php';
 // 获取GitHub仓库的最新提交信息
 function getLatestCommit($repoOwner, $repoName, $accessToken = '') {
     $url = "https://api.github.com/repos/$repoOwner/$repoName/commits";
-    //https://api.github.com/repos/hllqkb/Filehelper_Easy/commits
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -14,7 +13,6 @@ function getLatestCommit($repoOwner, $repoName, $accessToken = '') {
         'Authorization: token ' . $accessToken
     ]);
     $response = curl_exec($ch);
-    //print_r($response);
     if ($response === false) {
         logError('Failed to fetch GitHub commits: ' . curl_error($ch));
         curl_close($ch);
@@ -66,7 +64,6 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
         $zipUrl = "https://api.github.com/repos/$repoOwner/$repoName/zipball";
         $zipFile = __DIR__ . '/../latest_code.zip';
 
-        // 使用 file_get_contents 下载文件
         $zipContent = file_get_contents($zipUrl, false, stream_context_create([
             'http' => [
                 'header' => [
@@ -84,29 +81,21 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
 
         file_put_contents($zipFile, $zipContent);
 
-        // 文件大小检验
         if (!checkZipFileSize($zipFile)) {
             exit("Exiting due to invalid zip file size.\n");
         }
 
-        // 解压并覆盖本地文件
         $extractPath = '../'; // 设置临时目录
         $zip = new ZipArchive;
         $res = $zip->open($zipFile);
         if ($res === TRUE) {
             $zip->extractTo($extractPath);
-     
-
-            // 获取解压后的第一个文件夹名称
             $firstFolder = $zip->getNameIndex(0);
             $tempDir = $extractPath . $firstFolder . '/';
-
-            // 移动解压的第一个文件夹内的所有文件和文件夹到根目录
             $rootDir = '../'; // 根目录路径
-            //解压完成后删除zip文件
-            $zip->close();//关闭资源
+            $zip->close();
             unlink($zipFile);
-            // 使用递归函数移动文件和目录
+
             function moveFiles($source, $destination) {
                 if (!is_dir($destination)) {
                     mkdir($destination, 0755, true);
@@ -174,6 +163,7 @@ $localVersion = getLocalVersion();
                     <form method="post">
                         <button type="submit" name="update" class="btn btn-primary">一键更新</button>
                     </form>
+                    <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#configModal">配置修改</button>
                 <?php else: ?>
                     <div class="alert alert-success" role="alert">
                         本地代码已是最新版本。
@@ -181,7 +171,30 @@ $localVersion = getLocalVersion();
                 <?php endif; ?>
             </div>
         </div>
+       
     </div>
+
+    <!-- 配置模态框 -->
+    <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">GitHub更新修改</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="saveConfig.php">
+                    <div class="modal-body">
+                        <textarea class="form-control" id="configText" name="configText" rows="20" style="white-space: pre-wrap;"><?php echo htmlspecialchars(file_get_contents('updateConfig.php')); ?></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,9 +1,12 @@
 <?php
 // GitHub仓库信息
-$repoOwner = 'hllqkb';
-$repoName = 'Filehelper_Easy';
+$repoOwner = 'hllqkb';//你的github用户名
+$repoName = 'Filehelper_Easy';//你的github仓库名
+$mixedToken='t0wjQ8ckPHacvZWBI5tSmUNpcldxM3BFNjVHdXp3cUsrNk5iNzlaNHk4aUdobUROOFJxdndybS9URS94OW5VakNmb2kzcHYzR1B0Uy9CRmw=';
+//加密后的github AccessToken，前往mix.php加密
+//END
 $encrypt_key = $repoName; 
-$decryptedAccessToken = decryptString('t0wjQ8ckPHacvZWBI5tSmUNpcldxM3BFNjVHdXp3cUsrNk5iNzlaNHk4aUdobUROOFJxdndybS9URS94OW5VakNmb2kzcHYzR1B0Uy9CRmw=', $encrypt_key);
+$decryptedAccessToken = decryptString($mixedToken, $encrypt_key);
 
 $accessToken = $decryptedAccessToken; 
 function encryptString($string, $key) {
