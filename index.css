@@ -4,6 +4,11 @@
       a {
         color: rgb(59, 59, 245);
       }
+      body {
+        font-family: "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        background-color: #353535;
+      }
       .chat-room {
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -29,7 +34,7 @@
       }
       
       .chat-input__text {
-        width: 155px;
+        width: 170px;
         flex: 1;
         padding: 10px;
         margin-right: 10px;
@@ -59,6 +64,7 @@
         border-radius: 5px;
         cursor: pointer;
         margin-left: 10px;
+        margin-top: 8px;
       }
       
       .chat-input__file-icon {
