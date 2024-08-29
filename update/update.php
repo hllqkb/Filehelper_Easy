@@ -1,9 +1,5 @@
 <?php
-// GitHub仓库信息
-$repoOwner = 'hllqkb';
-$repoName = 'Filehelper_Easy';
-$accessToken = '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'; // 替换为你的GitHub访问令牌
-
+require_once 'updateConfig.php';
 // 获取GitHub仓库的最新提交信息
 function getLatestCommit($repoOwner, $repoName, $accessToken = '') {
     $url = "https://api.github.com/repos/$repoOwner/$repoName/commits";
