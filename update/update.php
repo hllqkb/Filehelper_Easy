@@ -172,6 +172,7 @@ $localVersion = getLocalVersion();
                         本地代码已是最新版本。
                     </div>
                 <?php endif; ?>
+                <button id="checkUpdateBtn" onclick="window.location.href='../'" class="btn btn-success">回到主页</button>
             </div>
         </div>
        
