@@ -43,7 +43,7 @@ if (isset($_FILES['file'])) {
     }
 
     // 检查文件大小
-    if ($_FILES['file']['size'] > $maxFileSize) {
+    if ($_FILES['file']['size'] > $maxFileSize * 1024 * 1024) {
         echo json_encode(['status' => 'error', 'message' => 'File size exceeds limit']);
         exit;
     }
