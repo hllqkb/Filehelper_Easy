@@ -2,7 +2,7 @@
 // GitHub仓库信息
 $repoOwner = 'hllqkb';
 $repoName = 'Filehelper_Easy';
-$accessToken = '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'; // 替换为你的GitHub访问令牌
+$accessToken = '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'; // 替换为你的GitHub访问令牌
 
 // 获取GitHub仓库的最新提交信息
 function getLatestCommit($repoOwner, $repoName, $accessToken = '') {
@@ -75,6 +75,8 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
         // 解压并替换本地文件（假设使用ZipArchive扩展）
         $zip = new ZipArchive;
         if ($zip->open($zipFile) === true) {
+            // 删除当前目录下的所有文件和文件夹，除了.git目录
+            deleteDirectory(__DIR__, ['.git']);
             $zip->extractTo(__DIR__);
             $zip->close();
             unlink($zipFile);
@@ -88,6 +90,29 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
     } else {
         echo "Local code is up to date";
     }
+}
+
+// 删除目录及其内容，忽略特定目录
+function deleteDirectory($dir, $ignoreDirs = ['css']) {
+    if (!file_exists($dir)) {
+        return true;
+    }
+    if (!is_dir($dir)) {
+        return unlink($dir);
+    }
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') {
+            continue;
+        }
+        $fullPath = $dir . DIRECTORY_SEPARATOR . $item;
+        if (is_dir($fullPath) && in_array($item, $ignoreDirs)) {
+            continue;
+        }
+        if (!deleteDirectory($fullPath)) {
+            return false;
+        }
+    }
+    return rmdir($dir);
 }
 
 // 错误日志记录函数

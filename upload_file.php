@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
+
 require_once 'config.php';
+
 $allowedTypes = [
     'image/jpeg', 'image/png', 'application/pdf',
     'application/vnd.android.package-archive', // apk
@@ -12,13 +14,14 @@ $allowedTypes = [
     'application/x-zip-compressed', // zip
     'application/x-rar-compressed' // rar
 ];
-
+// echo json_encode(['status' => 'error','message' => 'Access denied']);
+// exit;
 if($IfIpLimit){
    //ip限制
 
    
    //检查IP地址是否在允许列表中
-    if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIPs)) {
+    if (!in_array($_SERVER['REMOTE_ADDR'], $IpLimit)) {
        echo json_encode(['status' => 'error', 'message' => 'Access denied']);
        exit;
     } 
@@ -26,7 +29,8 @@ if($IfIpLimit){
 //无限制
 }
 
-
+// echo json_encode(['status' => 'error','message' => 'Access denied']);
+// exit;
 if (isset($_FILES['file'])) {
     $fileExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 

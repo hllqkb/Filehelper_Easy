@@ -1,4 +1,5 @@
 <?php
+//header('Content-Type: application/json');
 require 'prddos.php';
 // 读取 config.json 文件内容
 $jsonContent = file_get_contents('config.json');
@@ -15,7 +16,7 @@ if (json_last_error() === JSON_ERROR_NONE && is_array($configArray)) {
     }
 } else {
     // 处理 JSON 解析错误
-    echo 'Error parsing config.json';
+   // echo 'Error parsing config.json';
 }
 if ($web==false){
     header("location:404.html");
