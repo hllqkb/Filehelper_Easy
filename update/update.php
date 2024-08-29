@@ -125,6 +125,12 @@ function updateCodeIfNeeded($repoOwner, $repoName, $accessToken = '') {
     }
     //更新完成后更新本地版本信息
     file_put_contents('../update/version.txt', $latestCommit); // 更新本地版本信息
+    if(!file_exists($zipFile)){
+        logError('下载的zip文件不存在');// 下载的zip文件不存在
+        header('Location:../');
+        exit();
+    }
+
     if(!unlink($zipFile)){
         logError('删除下载的zip文件失败');// 删除下载的zip文件
     }
@@ -172,7 +178,7 @@ $localVersion = getLocalVersion();
                         <button type="submit" name="update" class="btn btn-primary">一键更新</button>
                     </form>
                     <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#configModal">配置修改</button>
-                    <hr><button ype="button" onclick="window.location.href='../'" class="btn btn-success">回到主页</button>
+                    
                 <?php else: ?>
                     <div class="alert alert-success" role="alert">
                         本地代码已是最新版本。
@@ -180,6 +186,7 @@ $localVersion = getLocalVersion();
                 <?php endif; ?>
                 
             </div>
+            <hr><button ype="button" onclick="window.location.href='../'" class="btn btn-success">回到主页</button>
         </div>
        
     </div>
