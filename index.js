@@ -248,17 +248,16 @@ function deleteMessage(messageElement) {
 }
 function hideH1OnMobile() {
     const h1Element = document.getElementById('Welcome');
-    if (h1Element) {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const isSmallScreen = window.innerWidth <= 600; // 假设屏幕宽度小于等于600px为手机设备
+    var info = navigator.userAgent;
+    //通过正则表达式的test方法判断是否包含“Mobile”字符串
+    var isPhone = /mobile/i.test(info);
 
-        if (isMobile && isSmallScreen) {
+        if (isPhone) {
             h1Element.style.display = 'none';
         } else {
             h1Element.style.display = 'block';
         }
     }
-}
 function enableDoubleClickCopy() {
     const chatMessages = document.querySelectorAll('.chat-message');
 
@@ -269,7 +268,6 @@ function enableDoubleClickCopy() {
 }
 
 function handleDoubleClick(event) {
-    //alert('双击复制');
     const textElement = event.currentTarget.querySelector('.chat-message__text');
     if (textElement) {
         const textToCopy = textElement.textContent.trim();
@@ -278,6 +276,28 @@ function handleDoubleClick(event) {
             alert('复制成功！');
         }
     }
+}
+
+function handleTouch(event) {
+    const textElement = event.currentTarget.querySelector('.chat-message__text');
+    if (textElement) {
+        const textToCopy = textElement.textContent.trim();
+        if (textToCopy) {
+            copyToClipboard(textToCopy);
+            alert('复制成功！');
+        }
+    }
+}
+
+function enableDoubleClickCopy() {
+    const chatMessages = document.querySelectorAll('.chat-message');
+
+    chatMessages.forEach(message => {
+        message.removeEventListener('dblclick', handleDoubleClick); // 移除旧的双击事件监听器
+        message.addEventListener('dblclick', handleDoubleClick); // 添加新的双击事件监听器
+        message.removeEventListener('touchstart', handleTouch); // 移除旧的触摸事件监听器
+        message.addEventListener('touchstart', handleTouch); // 添加新的触摸事件监听器
+    });
 }
 
 function copyToClipboard(text) {
