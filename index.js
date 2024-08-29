@@ -51,7 +51,7 @@ function sendMessage() {
 
         const avatarElement = document.createElement('img');
         avatarElement.className = 'chat-message__avatar';
-        avatarElement.src = 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png'; // 头像图片地址
+        avatarElement.src = '../assets/WebChat.png'; // 头像图片地址
 
         const textElement = document.createElement('div');
         textElement.className = 'chat-message__text';
@@ -94,7 +94,7 @@ function sendMessage() {
 
         const avatarElement = document.createElement('img');
         avatarElement.className = 'chat-message__avatar';
-        avatarElement.src = 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png'; // 头像图片地址
+        avatarElement.src = '../assets/WebChat.png'; // 头像图片地址
 
         const textElement = document.createElement('div');
         textElement.className = 'chat-message__text';
@@ -135,49 +135,6 @@ function sendTextToServer(text) {
         console.error('Error:', error);
     });
 }
-//文件上传
-// document.getElementById('fileInput').addEventListener('change', function(event) {
-//     const file = event.target.files[0];
-//     if (file) {
-//         console.log('File selected:', file.name);
-//         uploadFile(file);
-        
-//     } else {
-//         console.error('No file selected');
-//     }
-// });
-
-// function uploadFile(file) {
-//     const formData = new FormData();
-//     formData.append('file', file);
-
-//     fetch('upload_file.php', {
-//         method: 'POST',
-//         body: formData
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             // 如果响应状态不是200，捕获并打印响应文本
-//             //
-//             return response.text().then(text => {
-//                 alert('Error:'+ text);
-//                 throw new Error('Network response was not ok: ' + text);
-//             });
-//         }
-//        // console.error('Error:', response.json());
-//         return response.json();
-//     })
-//     .then(data => {
-//         console.log('Success:', data);
-//         loadAllHistory();
-//     })
-//     .catch((error) => {
-         
-//         console.error('Error:', error);
-//     });
-// }
-
-
 
 function loadChatHistory() {
             // 超文本转换
@@ -200,7 +157,7 @@ function loadFileHistory() {
             return [];
         });
 }
-
+//加载所有消息刷新（移除懒加载）
 function loadAllHistory() {
     Promise.all([loadChatHistory(), loadFileHistory()])
         .then(([textData, fileData]) => {
@@ -227,7 +184,7 @@ function loadAllHistory() {
 
                 const avatarElement = document.createElement('img');
                 avatarElement.className = 'chat-message__avatar';
-                avatarElement.src = 'https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png'; // 头像图片地址
+                avatarElement.src = '../assets/WebChat.png'; // 头像图片地址
 
                 if (item.type === 'text') {
                     const textElement = document.createElement('div');
@@ -243,7 +200,7 @@ function loadAllHistory() {
                     if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
                         const imgElement = document.createElement('img');
                         imgElement.className = 'chat-message__file-image';
-                        imgElement.src = 'files/' + item.filename;
+                        imgElement.src = 'files/' + item.filename; // 直接使用src
                         imgElement.style.cursor = 'pointer';
                         imgElement.onclick = () => window.open('files/' + item.filename, '_blank');
                         fileElement.appendChild(imgElement);
@@ -270,19 +227,22 @@ function loadAllHistory() {
                 chatMessages.appendChild(messageElement);
             });
 
-            // 滚动到最新消息
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-                    // 超文本转换
-                convertLinksToHyperlinks();
-            //上面是加载历史消息的代码，下面是删除消息的代码
+            // 超文本转换
+            convertLinksToHyperlinks();
             // 添加右键删除功能
-    Adddeletebutton();
+            Adddeletebutton();
+
+            // 确保在所有消息都添加到DOM之后再执行滚动操作
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 0);
         })
         .catch((error) => {
             console.error('Error:', error);
         });
-
 }
+
+//END
 function Adddeletebutton() {
       // 添加右键删除功能
     const chatMessages = document.getElementById('chatMessages');

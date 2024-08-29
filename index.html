@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="shortcut icon" type="image/x-icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/NTI4MWU5.ico" />
   <meta rel="mask-icon" href="https://res.wx.qq.com/a/wx_fed/assets/res/MjliNWVm.svg" color="#4C4C4C" />
-  <meta rel="apple-touch-icon-precomposed" href="https://res.wx.qq.com/a/wx_fed/assets/res/OTE0YTAw.png" />
+  <meta rel="apple-touch-icon-precomposed" href="../assets/WebChat.png" />
   <meta name="keywords" content="hllqk，hllqk文件传输助手，文件传输助手，文件传输，hllqk文件传输助手网页版" />
   <meta name="description" content="hllqk文件传输助手网页版" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
@@ -154,7 +154,11 @@
           const response = JSON.parse(xhr.responseText);
           if (xhr.status === 200 && response.status === 'success') {
               // 处理上传成功后的逻辑
-              loadAllHistory();
+            // loadAllHistory();
+            window.location.reload();
+                  // 滚动到最新消息
+                //  const chatMessages = document.getElementById('chatMessages');
+           // chatMessages.scrollTop = chatMessages.scrollHeight;
           } else {
               // 处理上传失败后的逻辑
               alert('Error: ' + response.message);

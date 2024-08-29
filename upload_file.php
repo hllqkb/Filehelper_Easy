@@ -28,16 +28,16 @@ if ($IfIpLimit) {
 if (isset($_FILES['file'])) {
     $fileExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
-    // 检查文件扩展名是否在允许列表中
+
+
+    // 检查文件MIME类型是否在允许列表中
+    if (!in_array($_FILES['file']['type'], $allowedTypes)) {
+        //echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
+            // 检查文件扩展名是否在允许列表中
     if (!in_array($fileExtension, $allowedExtensions)) {
         echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
         exit;
     }
-
-    // 检查文件MIME类型是否在允许列表中
-    if (!in_array($_FILES['file']['type'], $allowedTypes)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid file type']);
-        exit;
     }
 
     // 检查文件大小
