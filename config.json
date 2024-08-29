@@ -21,7 +21,7 @@
         "pdf",
         "swf"
     ],
-    "IfIpLimit": true,
+    "IfIpLimit": false,
     "IpLimit": [
         "127.0.0.55",
         "127.0.0.1"

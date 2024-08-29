@@ -147,6 +147,7 @@ $localVersion = getLocalVersion();
     <meta charset="UTF-8">
     <title>GitHub版本更新</title>
     <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    
 </head>
 <body>
     <div class="container">
