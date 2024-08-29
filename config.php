@@ -1,4 +1,5 @@
 <?php
+require 'prddos.php';
 // 读取 config.json 文件内容
 $jsonContent = file_get_contents('config.json');
 
@@ -16,7 +17,10 @@ if (json_last_error() === JSON_ERROR_NONE && is_array($configArray)) {
     // 处理 JSON 解析错误
     echo 'Error parsing config.json';
 }
-
+if ($web==false){
+    header("location:404.html");
+    }
 // 示例：输出配置值
-echo $maxFileSize; // 假设 config.json 中有 "exampleKey": "exampleValue"
+//print_r($IpLimit); // 假设 config.json 中有 "exampleKey": "exampleValue"
+
 ?>

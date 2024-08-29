@@ -1,5 +1,7 @@
 <?php
 header('Content-Type: application/json');
+// 引入prddos.php
+require_once 'prddos.php';
 // 从PHP输入流中获取原始POST数据，不然无法获取
 $rawData = file_get_contents('php://input');
 // 解码JSON数据

@@ -4,6 +4,7 @@
       "allowedExtensions": ["mp4", "mp3", "exe", "zip", "rar", "apk", "jpg", "jpeg", "gif", "png", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt", "pdf", "swf"]
      ,
      "IfIpLimit":true,
-        "IpLimit":["127.0.0.55","127.0.0.1"]
+        "IpLimit":["127.0.0.55","127.0.0.1"],
+        "web":true
     }
   

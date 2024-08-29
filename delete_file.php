@@ -1,4 +1,6 @@
 <?php
+// 引入prddos.php
+require_once 'prddos.php';
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
