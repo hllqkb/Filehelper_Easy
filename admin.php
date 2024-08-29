@@ -27,7 +27,6 @@ $allowedExtensions = implode(',', $config['allowedExtensions']);
 $IfIpLimit = $config['IfIpLimit'];
 $allowedIPs = implode(',', $config['IpLimit']);
 ?>
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -60,11 +59,21 @@ $allowedIPs = implode(',', $config['IpLimit']);
                 <label for="allowedIPs">允许的IP地址列表（用逗号分隔）</label>
                 <input type="text" class="form-control" id="allowedIPs" name="allowedIPs" value="<?php echo $allowedIPs; ?>">
             </div>
+ 
             <button type="submit" class="btn btn-primary">保存配置</button>
         </form>
+
+        <!-- 新增的“检查更新安装”按钮 -->
+        <button id="checkUpdateBtn" class="btn btn-secondary mt-3">检查更新安装</button>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // JavaScript代码实现点击按钮后跳转到update/页面
+        document.getElementById('checkUpdateBtn').addEventListener('click', function() {
+            window.location.href = 'update/';
+        });
+    </script>
 </body>
 </html>

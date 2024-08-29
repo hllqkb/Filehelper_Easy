@@ -72,9 +72,11 @@
                       <span class="chat-input__file-icon">+</span>
                       <input type="file" class="chat-input__file" id="fileInput" />
                     </label>
+                    <!-- 文件上传进度条 -->
+                    <progress id="uploadProgress" value="0" max="100" style="width: 100%; display: none;"></progress>
                   </div>
                 </div>
-                <p class="login-scan__extend">©2020 - 2024 By hllqk1.0.0</p>
+                <p class="login-scan__extend">©2020 - 2024 By <a target="_blank" href="../admin.php">hllqk</a></p>
               </div>
             </div>
           </div>
@@ -124,7 +126,58 @@
   <script src="index.js"></script>
   <!-- 引用JS文件 -->
   <!-- built files will be auto injected -->
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        uploadFile1(file);
+      }
+    });
+
+    function uploadFile1(file) {
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'upload_file.php', true);
+  
+      xhr.upload.addEventListener('progress', function(event) {
+          if (event.lengthComputable) {
+              const percentComplete = (event.loaded / event.total) * 100;
+              document.getElementById('uploadProgress').value = percentComplete;
+              document.getElementById('uploadProgress').style.display = 'block';
+          }
+      });
+  
+      xhr.addEventListener('load', function() {
+          document.getElementById('uploadProgress').style.display = 'none';
+          const response = JSON.parse(xhr.responseText);
+          if (xhr.status === 200 && response.status === 'success') {
+              // 处理上传成功后的逻辑
+              loadAllHistory();
+          } else {
+              // 处理上传失败后的逻辑
+              alert('Error: ' + response.message);
+              throw new Error('Upload failed: ' + response.message);
+          }
+      });
+  
+      xhr.addEventListener('error', function() {
+       // alert('Error: Network error occurred');
+          document.getElementById('uploadProgress').style.display = 'none';
+          alert('Error: Network error occurred');
+          throw new Error('Network error occurred');
+      });
+  
+      xhr.addEventListener('abort', function() {
+          document.getElementById('uploadProgress').style.display = 'none';
+          alert('Error: Upload aborted');
+          throw new Error('Upload aborted');
+      });
+  
+      xhr.send(formData);
+  }
+  
+  </script>
 </body>
 </html>
-
-

@@ -136,44 +136,46 @@ function sendTextToServer(text) {
     });
 }
 //文件上传
-document.getElementById('fileInput').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        console.log('File selected:', file.name);
-        uploadFile(file);
+// document.getElementById('fileInput').addEventListener('change', function(event) {
+//     const file = event.target.files[0];
+//     if (file) {
+//         console.log('File selected:', file.name);
+//         uploadFile(file);
         
-    } else {
-        console.error('No file selected');
-    }
-});
+//     } else {
+//         console.error('No file selected');
+//     }
+// });
 
-function uploadFile(file) {
-    const formData = new FormData();
-    formData.append('file', file);
+// function uploadFile(file) {
+//     const formData = new FormData();
+//     formData.append('file', file);
 
-    fetch('upload_file.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            // 如果响应状态不是200，捕获并打印响应文本
-            return response.text().then(text => {
-                throw new Error('Network response was not ok: ' + text);
-            });
-        }
-       // console.error('Error:', response.json());
-        return response.json();
-    })
-    .then(data => {
-        console.log('Success:', data);
-        loadAllHistory();
-    })
-    .catch((error) => {
+//     fetch('upload_file.php', {
+//         method: 'POST',
+//         body: formData
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             // 如果响应状态不是200，捕获并打印响应文本
+//             //
+//             return response.text().then(text => {
+//                 alert('Error:'+ text);
+//                 throw new Error('Network response was not ok: ' + text);
+//             });
+//         }
+//        // console.error('Error:', response.json());
+//         return response.json();
+//     })
+//     .then(data => {
+//         console.log('Success:', data);
+//         loadAllHistory();
+//     })
+//     .catch((error) => {
          
-        console.error('Error:', error);
-    });
-}
+//         console.error('Error:', error);
+//     });
+// }
 
 
 

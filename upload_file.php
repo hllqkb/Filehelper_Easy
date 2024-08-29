@@ -14,23 +14,17 @@ $allowedTypes = [
     'application/x-zip-compressed', // zip
     'application/x-rar-compressed' // rar
 ];
-// echo json_encode(['status' => 'error','message' => 'Access denied']);
-// exit;
-if($IfIpLimit){
-   //ip限制
 
-   
-   //检查IP地址是否在允许列表中
+if ($IfIpLimit) {
+    // IP限制
     if (!in_array($_SERVER['REMOTE_ADDR'], $IpLimit)) {
-       echo json_encode(['status' => 'error', 'message' => 'Access denied']);
-       exit;
-    } 
-}else{
-//无限制
+        echo json_encode(['status' => 'error', 'message' => 'Access denied']);
+        exit;
+    }
+} else {
+    // 无限制
 }
 
-// echo json_encode(['status' => 'error','message' => 'Access denied']);
-// exit;
 if (isset($_FILES['file'])) {
     $fileExtension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
 
@@ -64,6 +58,7 @@ if (isset($_FILES['file'])) {
 
     // 检查文件是否已存在
     if (file_exists($targetFile)) {
+        //echo "<script>window.alert('文件已存在！请重新上传！')</script>";
         echo json_encode(['status' => 'error', 'message' => 'File already exists']);
         exit;
     }
