@@ -153,7 +153,7 @@ function loadAllHistory() {
                         const imgElement = document.createElement('img');
 imgElement.className = 'chat-message__file-image';
 imgElement.dataset.src = 'files/' + item.filename; // 使用 data-src 属性保存图片 URL
-imgElement.src = 'picture/loading.gif'; // 初始时不设置 src
+imgElement.src = ''; // 初始时不设置 src
 imgElement.style.cursor = 'pointer';
 imgElement.onclick = () => window.open('files/' + item.filename, '_blank'); // 点击打开图片
 
