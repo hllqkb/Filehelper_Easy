@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $config['IfIpLimit'] = isset($_POST['IfIpLimit']) ? true : false;
     $config['IpLimit'] = explode(',', $_POST['allowedIPs']);
     $config['web'] = isset($_POST['web']) ? true : false;
+    $config['enableDdosProtection'] = isset($_POST['enableDdosProtection']) ? true : false; // 新增的配置项
 
     // 保存配置文件
     file_put_contents('config.json', json_encode($config, JSON_PRETTY_PRINT));
@@ -31,6 +32,7 @@ $allowedExtensions = implode(',', $config['allowedExtensions']);
 $IfIpLimit = $config['IfIpLimit'];
 $allowedIPs = implode(',', $config['IpLimit']);
 $web = $config['web'];
+$enableDdosProtection = isset($config['enableDdosProtection']) ? $config['enableDdosProtection'] : false; // 新增配置读取
 
 // 读取cookie
 $enableRightClickDelete = isset($_COOKIE['enableRightClickDelete']) ? $_COOKIE['enableRightClickDelete'] === 'true' : true; // 默认开启
@@ -75,6 +77,10 @@ $enableRightClickDelete = isset($_COOKIE['enableRightClickDelete']) ? $_COOKIE['
                 <input type="checkbox" class="form-check-input" id="web" name="web" <?php echo $web ? 'checked' : ''; ?>>
                 <label class="form-check-label" for="web">是否开启网站</label>
             </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="enableDdosProtection" name="enableDdosProtection" <?php echo $enableDdosProtection ? 'checked' : ''; ?>>
+                <label class="form-check-label" for="enableDdosProtection">是否开启防DDoS</label>
+            </div>
             <button type="submit" class="btn btn-primary">保存配置</button>
         </form>
 
@@ -84,11 +90,10 @@ $enableRightClickDelete = isset($_COOKIE['enableRightClickDelete']) ? $_COOKIE['
             <button id="checkUpdateBtn" class="btn btn-secondary mr-2">检查更新安装</button>
             <!-- “短链接”按钮 -->
             <button id="shortLinkBtn" class="btn btn-success" onclick="window.location.href='/d/'">短链接</button>
-            
         </div>
         <div class="mt-3 d-flex justify-content-start">
-        <button id="shortLinkBtn" class="btn btn-primary" onclick="window.location.href='../'">主页</button>
-    </div>
+            <button id="shortLinkBtn" class="btn btn-primary" onclick="window.location.href='../'">主页</button>
+        </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -151,11 +151,38 @@ function loadAllHistory() {
                     const fileType = item.filename.split('.').pop().toLowerCase();
                     if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
                         const imgElement = document.createElement('img');
-                        imgElement.className = 'chat-message__file-image';
-                        imgElement.src = 'files/' + item.filename; // 直接使用src
-                        imgElement.style.cursor = 'pointer';
-                        imgElement.onclick = () => window.open('files/' + item.filename, '_blank');
-                        fileElement.appendChild(imgElement);
+imgElement.className = 'chat-message__file-image';
+imgElement.dataset.src = 'files/' + item.filename; // 使用 data-src 属性保存图片 URL
+imgElement.src = 'picture/loading.gif'; // 初始时不设置 src
+imgElement.style.cursor = 'pointer';
+imgElement.onclick = () => window.open('files/' + item.filename, '_blank'); // 点击打开图片
+
+// 创建懒加载功能
+const loadImage = (image) => {
+    if (image.dataset.src) {
+        image.src = image.dataset.src; // 设置图片源
+        image.onload = () => {
+            image.classList.add('loaded'); // 可以使用 CSS 动画效果
+        };
+        delete image.dataset.src; // 加载后移除 data-src 属性
+    }
+};
+
+// 检查图片是否进入视口
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            loadImage(entry.target); // 加载图片
+            observer.unobserve(entry.target); // 停止观察
+        }
+    });
+});
+
+// 开始观察 imgElement
+observer.observe(imgElement);
+
+fileElement.appendChild(imgElement);
+
                     } else {
                         const linkElement = document.createElement('a');
                         linkElement.className = 'chat-message__file-link';

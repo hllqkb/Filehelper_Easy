@@ -5,11 +5,7 @@ session_start();
 $dataFile = 'links.json';
 
 // 读取现有数据
-if (file_exists($dataFile)) {
-    $data = json_decode(file_get_contents($dataFile), true);
-} else {
-    $data = [];
-}
+$data = file_exists($dataFile) ? json_decode(file_get_contents($dataFile), true) : [];
 
 // 处理登录
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
@@ -56,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     if (isset($data[$shortUrl])) {
         unset($data[$shortUrl]);
         file_put_contents($dataFile, json_encode($data, JSON_PRETTY_PRINT));
-        echo "短链接已删除。";
+        echo "<div class='alert alert-success'>短链接已删除。</div>";
     } else {
-        echo "短链接不存在。";
+        echo "<div class='alert alert-danger'>短链接不存在。</div>";
     }
 }
 
@@ -87,11 +83,11 @@ $domain = $_SERVER['HTTP_HOST'];
             <tbody>
                 <?php foreach ($data as $shortUrl => $longUrl): ?>
                     <tr>
-                        <td><a href="http://<?php echo $domain; ?>/d/redirect.php?shortUrl=<?php echo $shortUrl; ?>"><?php echo $shortUrl; ?></a></td>
-                        <td><?php echo $longUrl; ?></td>
+                        <td><a href="http://<?php echo htmlspecialchars($domain); ?>/d/<?php echo htmlspecialchars($shortUrl); ?>"><?php echo htmlspecialchars($shortUrl); ?></a></td>
+                        <td><?php echo htmlspecialchars($longUrl); ?></td>
                         <td>
-                            <form method="post">
-                                <input type="hidden" name="shortUrl" value="<?php echo $shortUrl; ?>">
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="shortUrl" value="<?php echo htmlspecialchars($shortUrl); ?>">
                                 <button type="submit" name="delete" class="btn btn-danger btn-sm">删除</button>
                             </form>
                         </td>

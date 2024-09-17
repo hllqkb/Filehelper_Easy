@@ -15,7 +15,7 @@ $shortUrl = $_GET['shortUrl'];
 // 检查短链接是否存在
 if (isset($data[$shortUrl])) {
     $longUrl = $data[$shortUrl];
-    header("Location: $longUrl");
+    header("Location: $longUrl"); // 重定向到长链接
     exit;
 } else {
     echo "短链接不存在。";

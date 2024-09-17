@@ -26,5 +26,6 @@
         "127.0.0.55",
         "127.0.0.1"
     ],
-    "web": true
+    "web": true,
+    "enableDdosProtection": true
 }

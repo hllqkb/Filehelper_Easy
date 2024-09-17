@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# 伪静态短链接规则
+RewriteRule ^s/([a-zA-Z0-9]{6})$ redirect.php?shortUrl=$1 [L,QSA]

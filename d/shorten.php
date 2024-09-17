@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 生成短链接
     if (!empty($customShortUrl)) {
         // 检查自定义短链接是否已存在
-        if (isset($data[$customShortUrl])) {
+        if (isset($data[$customShortUrl])) {//
             echo "自定义短链接已存在，请选择其他短链接。";
             exit;
         }
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $domain = $_SERVER['HTTP_HOST'];
 
     // 显示生成的短链接
-    echo "短链接已生成: <a href='http://$domain/d/redirect.php?shortUrl=$shortUrl'>http://$domain/d/redirect.php?shortUrl=$shortUrl</a>";
+    echo "短链接已生成: <a href='http://$domain/d/$shortUrl'>http://$domain/d/$shortUrl</a>";
     exit;
 }
 ?>

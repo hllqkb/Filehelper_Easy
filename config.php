@@ -1,6 +1,6 @@
 <?php
 //header('Content-Type: application/json');
-require 'prddos.php';
+
 // 读取 config.json 文件内容
 $jsonContent = file_get_contents('config.json');
 
@@ -20,6 +20,9 @@ if (json_last_error() === JSON_ERROR_NONE && is_array($configArray)) {
 }
 if ($web==false){
     header("location:404.html");
+    }
+    if ($enableDdosProtection==true){
+        require 'prddos.php';
     }
 // 示例：输出配置值
 //print_r($IpLimit); // 假设 config.json 中有 "exampleKey": "exampleValue"
